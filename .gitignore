@@ -1,0 +1,26 @@
+
+---
+
+# ⭐ `.gitignore`
+
+```gitignore
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Streamlit cache
+.streamlit/
+
+# SQLite database (optional)
+*.db
+
+# Azure credentials
+azure_config.py
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
