@@ -7,9 +7,15 @@ from shared.ui_theme import apply_theme
 
 apply_theme()
 render_sidebar()
+
+# 🚫 Prevent employee login if manager is already logged in
+if st.session_state.get("manager_id"):
+    st.error("A manager is already logged in. Please logout before continuing as an employee.")
+    st.stop()
+
 render_header("Employee Login")
 
-st.set_page_config(page_title="Login")
+st.set_page_config(page_title="Employee Login")
 
 # DB connection
 conn = sqlite3.connect("aitimemate.db")

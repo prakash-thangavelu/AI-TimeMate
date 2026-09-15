@@ -10,7 +10,7 @@ def apply_theme():
     st.markdown(
         f"""
         <style>
-            .main {{
+            body {{
                 background-color: {BG_LIGHT};
             }}
 

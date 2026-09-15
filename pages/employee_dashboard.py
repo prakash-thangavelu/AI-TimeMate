@@ -21,6 +21,14 @@ if "employee_id" not in st.session_state:
 employee_id = st.session_state["employee_id"]
 employee_name = st.session_state["employee_name"]
 
+if st.session_state.get("edit_mode"):
+    from pages.timesheet_edit import render_edit_form
+    render_edit_form(
+        st.session_state["edit_ts_id"],
+        st.session_state["edit_ts_data"]
+    )
+    st.stop()
+
 st.write(f"Logged in as **{employee_name}**")
 
 # 🔥 Connect DB
@@ -50,6 +58,8 @@ for row in rows:
 
     timesheet_card(
         ts_id=ts_id,
+        emp_id=employee_id,
+        emp_name=employee_name,
         status=status,
         json_data=json_data,
         manager_comment=manager_comment

@@ -45,39 +45,11 @@ for row in rows:
 
     timesheet_card(
         ts_id=ts_id,
+        emp_id=emp_id,
+        emp_name=emp_name,
         status=status,
         json_data=json_data,
         manager_comment=data.get("manager_comment")
     )
-
-    with st.expander(f"Timesheet #{ts_id} — {emp_name}"):
-        st.json(data)
-
-        # 🔥 NEW: Manager comments
-        comment = st.text_area(f"Manager Comments for Timesheet #{ts_id}")
-
-        col1, col2 = st.columns(2)
-
-        # 🔥 NEW: Approve button
-        if col1.button(f"Approve #{ts_id}"):
-            cursor.execute("""
-                UPDATE timesheets
-                SET status = 'Approved', json_data = ?
-                WHERE id = ?
-            """, (json.dumps({**data, "manager_comment": comment}), ts_id))
-            conn.commit()
-            st.success(f"Timesheet #{ts_id} Approved")
-            success_screen("Approved ✔️", "This timesheet is now approved.")
-
-        # 🔥 NEW: Reject button
-        if col2.button(f"Reject #{ts_id}"):
-            cursor.execute("""
-                UPDATE timesheets
-                SET status = 'Rejected', json_data = ?
-                WHERE id = ?
-            """, (json.dumps({**data, "manager_comment": comment}), ts_id))
-            conn.commit()
-            st.error(f"Timesheet #{ts_id} Rejected")
-            success_screen("Rejected ❌", "This timesheet has been rejected.")
-
+    
 conn.close()

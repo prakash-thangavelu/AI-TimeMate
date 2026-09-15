@@ -7,6 +7,12 @@ from shared.ui_theme import apply_theme
 
 apply_theme()
 render_sidebar()
+
+# 🚫 Prevent manager login if employee is already logged in
+if st.session_state.get("employee_id"):
+    st.error("A employee is already logged in. Please logout before continuing as an manager.")
+    st.stop()
+
 render_header("Manager Login")
 
 # st.title("AI-TimeMate - Manager Login")
