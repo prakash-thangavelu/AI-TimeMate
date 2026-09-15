@@ -9,6 +9,7 @@ def render_sidebar():
     st.sidebar.page_link("pages/employee_dashboard.py", label="📊 Employee Dashboard")
     st.sidebar.page_link("pages/manager_login.py", label="🧑‍💼 Manager Login")
     st.sidebar.page_link("pages/manager_approval.py", label="✔️ Manager Approval")
+    st.sidebar.page_link("pages/manager_history.py", label="📜 Approval History")
 
     st.sidebar.markdown("---")
 
