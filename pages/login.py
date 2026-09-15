@@ -1,6 +1,14 @@
 import streamlit as st
 import sqlite3
 
+from shared.sidebar import render_sidebar
+from shared.header import render_header
+from shared.ui_theme import apply_theme
+
+apply_theme()
+render_sidebar()
+render_header("Employee Login")
+
 st.set_page_config(page_title="Login")
 
 # DB connection
@@ -11,7 +19,7 @@ cursor = conn.cursor()
 cursor.execute("SELECT employee_id, employee_name FROM employees")
 employees = cursor.fetchall()
 
-st.title("AI-TimeMate - Employee Login")
+# st.title("AI-TimeMate - Employee Login")
 
 # Dropdown for employee selection
 employee_names = {emp[1]: emp[0] for emp in employees}

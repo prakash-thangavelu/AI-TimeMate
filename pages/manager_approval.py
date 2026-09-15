@@ -2,6 +2,16 @@ import streamlit as st
 import sqlite3
 import json
 
+from shared.sidebar import render_sidebar
+from shared.header import render_header
+from shared.ui_theme import apply_theme
+from shared.animated import success_screen
+from shared.cards import timesheet_card
+
+apply_theme()
+render_sidebar()
+render_header("Manager Approval")
+
 # 🔥 NEW: Check manager login
 if "manager_id" not in st.session_state:
     st.error("Please login as Manager.")
@@ -9,7 +19,7 @@ if "manager_id" not in st.session_state:
 
 manager_name = st.session_state["manager_name"]
 
-st.title("Manager Approval Dashboard")
+# st.title("Manager Approval Dashboard")
 st.write(f"Logged in as **{manager_name}**")
 
 # 🔥 NEW: Load pending timesheets
@@ -33,6 +43,13 @@ for row in rows:
     ts_id, emp_id, emp_name, json_data, status = row
     data = json.loads(json_data)
 
+    timesheet_card(
+        ts_id=ts_id,
+        status=status,
+        json_data=json_data,
+        manager_comment=data.get("manager_comment")
+    )
+
     with st.expander(f"Timesheet #{ts_id} — {emp_name}"):
         st.json(data)
 
@@ -50,6 +67,7 @@ for row in rows:
             """, (json.dumps({**data, "manager_comment": comment}), ts_id))
             conn.commit()
             st.success(f"Timesheet #{ts_id} Approved")
+            success_screen("Approved ✔️", "This timesheet is now approved.")
 
         # 🔥 NEW: Reject button
         if col2.button(f"Reject #{ts_id}"):
@@ -60,5 +78,6 @@ for row in rows:
             """, (json.dumps({**data, "manager_comment": comment}), ts_id))
             conn.commit()
             st.error(f"Timesheet #{ts_id} Rejected")
+            success_screen("Rejected ❌", "This timesheet has been rejected.")
 
 conn.close()

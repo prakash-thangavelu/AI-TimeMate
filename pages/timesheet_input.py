@@ -2,6 +2,15 @@ import streamlit as st
 import sqlite3
 import json
 
+from shared.sidebar import render_sidebar
+from shared.header import render_header
+from shared.ui_theme import apply_theme
+from shared.animated import success_screen
+
+apply_theme()
+render_sidebar()
+render_header("Weekly Timesheet Input")
+
 # Import Azure GenAI extractor
 from genai_extractor import extract_timesheet
 
@@ -13,7 +22,7 @@ if "employee_id" not in st.session_state:
 employee_id = st.session_state["employee_id"]
 employee_name = st.session_state["employee_name"]
 
-st.title("AI-TimeMate - Weekly Timesheet Input")
+# st.title("AI-TimeMate - Weekly Timesheet Input")
 st.write(f"Logged in as **{employee_name}**")
 
 # Text area for natural language input
@@ -72,3 +81,8 @@ if st.button("Submit Timesheet"):
         conn.close()
 
         st.success("Timesheet submitted for manager approval!")
+
+        success_screen(
+            message="Timesheet Submitted 🎉",
+            sub_message="Timesheet submitted for manager approval!"
+        )

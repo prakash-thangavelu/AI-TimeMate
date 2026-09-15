@@ -1,7 +1,15 @@
 import streamlit as st
 import sqlite3
 
-st.title("AI-TimeMate - Manager Login")
+from shared.sidebar import render_sidebar
+from shared.header import render_header
+from shared.ui_theme import apply_theme
+
+apply_theme()
+render_sidebar()
+render_header("Manager Login")
+
+# st.title("AI-TimeMate - Manager Login")
 
 # Connect DB
 conn = sqlite3.connect("aitimemate.db")
