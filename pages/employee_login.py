@@ -1,6 +1,6 @@
 import streamlit as st
-import sqlite3
 
+from db import get_db
 from shared.sidebar import render_sidebar
 from shared.header import render_header
 from shared.ui_theme import apply_theme
@@ -18,7 +18,7 @@ render_header("Employee Login")
 st.set_page_config(page_title="Employee Login")
 
 # DB connection
-conn = sqlite3.connect("aitimemate.db")
+conn = get_db()
 cursor = conn.cursor()
 
 # Fetch employees

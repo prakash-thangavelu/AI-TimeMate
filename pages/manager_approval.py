@@ -1,7 +1,7 @@
 import streamlit as st
-import sqlite3
 import json
 
+from db import get_db
 from shared.sidebar import render_sidebar
 from shared.header import render_header
 from shared.ui_theme import apply_theme
@@ -12,7 +12,7 @@ apply_theme()
 render_sidebar()
 render_header("Manager Approval")
 
-# 🔥 NEW: Check manager login
+# Check manager login
 if "manager_id" not in st.session_state:
     st.error("Please login as Manager.")
     st.stop()
@@ -22,8 +22,8 @@ manager_name = st.session_state["manager_name"]
 # st.title("Manager Approval Dashboard")
 st.write(f"Logged in as **{manager_name}**")
 
-# 🔥 NEW: Load pending timesheets
-conn = sqlite3.connect("aitimemate.db")
+# Load pending timesheets
+conn = get_db()
 cursor = conn.cursor()
 
 cursor.execute("""

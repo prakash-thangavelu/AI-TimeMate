@@ -1,6 +1,6 @@
 import streamlit as st
-import sqlite3
 import json
+from db import get_db
 
 from shared.sidebar import render_sidebar
 from shared.header import render_header
@@ -19,7 +19,7 @@ manager_name = st.session_state["manager_name"]
 st.write(f"Logged in as **{manager_name}**")
 
 # 🔥 Load approved + rejected timesheets
-conn = sqlite3.connect("aitimemate.db")
+conn = get_db()
 cursor = conn.cursor()
 
 cursor.execute("""

@@ -1,7 +1,8 @@
-import sqlite3
 import json
 
-conn = sqlite3.connect("aitimemate.db")
+from db import get_db
+
+conn = get_db()
 cursor = conn.cursor()
 
 # Managers table

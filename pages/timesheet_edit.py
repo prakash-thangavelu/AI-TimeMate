@@ -1,6 +1,7 @@
 import streamlit as st
-import sqlite3
 import json
+
+from db import get_db
 
 def render_edit_form(ts_id, data):
     st.header(f"Edit Timesheet #{ts_id}")
@@ -47,8 +48,9 @@ def render_edit_form(ts_id, data):
             "notes": notes
         })
 
-        conn = sqlite3.connect("aitimemate.db")
+        conn = get_db()
         cursor = conn.cursor()
+        
         cursor.execute(
             "UPDATE timesheets SET json_data=?, status='Pending Approval' WHERE id=?",
             (updated_json, ts_id)

@@ -1,7 +1,7 @@
 import streamlit as st
-import sqlite3
 import json
 
+from db import get_db
 from shared.sidebar import render_sidebar
 from shared.header import render_header
 from shared.ui_theme import apply_theme
@@ -54,7 +54,7 @@ if st.button("Submit Timesheet"):
     if "preview_json" not in st.session_state:
         st.error("Please generate preview before submitting.")
     else:
-        conn = sqlite3.connect("aitimemate.db")
+        conn = get_db()
         cursor = conn.cursor()
 
         cursor.execute("""

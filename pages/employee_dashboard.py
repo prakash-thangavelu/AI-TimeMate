@@ -1,7 +1,7 @@
 import streamlit as st
-import sqlite3
 import json
 
+from db import get_db
 from shared.sidebar import render_sidebar
 from shared.header import render_header
 from shared.ui_theme import apply_theme
@@ -32,7 +32,7 @@ if st.session_state.get("edit_mode"):
 st.write(f"Logged in as **{employee_name}**")
 
 # 🔥 Connect DB
-conn = sqlite3.connect("aitimemate.db")
+conn = get_db()
 cursor = conn.cursor()
 
 # 🔥 Fetch employee's timesheets

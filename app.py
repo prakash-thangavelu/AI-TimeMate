@@ -10,6 +10,3 @@ render_header("Home")
 
 st.set_page_config(page_title="AI-TimeMate")
 st.write("Use the left sidebar to navigate.")
-st.sidebar.title("Navigation")
-
-

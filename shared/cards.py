@@ -1,6 +1,6 @@
 import json
 import streamlit as st
-import sqlite3
+from db import get_db
 
 def timesheet_card(ts_id, emp_id, emp_name, status, json_data, manager_comment=None):
     # Handle dict or raw JSON string safely
@@ -98,8 +98,9 @@ def timesheet_card(ts_id, emp_id, emp_name, status, json_data, manager_comment=N
         col1, col2 = st.columns(2)
 
         if col1.button(f"Approve #{ts_id}", key=f"approve_{ts_id}"):
-            conn = sqlite3.connect("aitimemate.db")
+            conn = get_db()
             cursor = conn.cursor()
+
             cursor.execute("""
                 UPDATE timesheets
                 SET status = 'Approved', json_data = ?
@@ -111,8 +112,9 @@ def timesheet_card(ts_id, emp_id, emp_name, status, json_data, manager_comment=N
             st.rerun()
 
         if col2.button(f"Reject #{ts_id}", key=f"reject_{ts_id}"):
-            conn = sqlite3.connect("aitimemate.db")
+            conn = get_db()
             cursor = conn.cursor()
+            
             cursor.execute("""
                 UPDATE timesheets
                 SET status = 'Rejected', json_data = ?

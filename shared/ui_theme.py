@@ -42,3 +42,13 @@ def apply_theme():
         """,
         unsafe_allow_html=True
     )
+
+    st.markdown(
+    """<style>
+    /* Hide Streamlit's default sidebar page links */
+    div[data-testid="stSidebarNav"] {
+        display: none !important;
+    }
+    </style>""", 
+    unsafe_allow_html=True
+    )

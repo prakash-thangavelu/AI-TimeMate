@@ -1,6 +1,6 @@
 import streamlit as st
-import sqlite3
 
+from db import get_db
 from shared.sidebar import render_sidebar
 from shared.header import render_header
 from shared.ui_theme import apply_theme
@@ -18,7 +18,7 @@ render_header("Manager Login")
 # st.title("AI-TimeMate - Manager Login")
 
 # Connect DB
-conn = sqlite3.connect("aitimemate.db")
+conn = get_db()
 cursor = conn.cursor()
 
 # Fetch managers list
@@ -40,3 +40,5 @@ if st.button("Login"):
 
     st.success(f"Welcome {selected_manager}!")
     st.switch_page("pages/manager_approval.py")
+
+conn.close()
