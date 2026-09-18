@@ -1,3 +1,4 @@
+import os
 import json
 
 from db import get_db
@@ -167,3 +168,35 @@ conn.commit()
 conn.close()
 
 print("Database setup completed with sample data!")
+
+
+
+# streamlit config
+def create_streamlit_config():
+    config_dir = ".streamlit"
+    config_file = os.path.join(config_dir, "config.toml")
+
+    # Create folder if missing
+    if not os.path.exists(config_dir):
+        os.makedirs(config_dir)
+
+    # Theme content
+    theme_content = """
+[theme]
+base="light"
+primaryColor="#4F46E5"
+backgroundColor="#F3F4F6"
+secondaryBackgroundColor="#FFFFFF"
+textColor="#1F2937"
+font="sans serif"
+"""
+
+    # Write file
+    with open(config_file, "w") as f:
+        f.write(theme_content.strip())
+
+    print("✓ Streamlit theme config.toml created.")
+
+# Call this inside your main setup flow
+create_streamlit_config()
+

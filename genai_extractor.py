@@ -5,12 +5,22 @@ from openai import AzureOpenAI
 from datetime import datetime, timedelta
 from pathlib import Path
 from string import Template
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Retrieve the variables
+AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
+AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_KEY")
+AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION")
 
 # Azure OpenAI client
 client = AzureOpenAI(
-    azure_endpoint=azure_config.AZURE_OPENAI_ENDPOINT,
-    api_key=azure_config.AZURE_OPENAI_KEY,
-    api_version=azure_config.AZURE_OPENAI_API_VERSION
+    azure_endpoint=AZURE_OPENAI_ENDPOINT,
+    api_key=AZURE_OPENAI_KEY,
+    api_version=AZURE_OPENAI_API_VERSION
 )
 
 def extract_timesheet(raw_text: str) -> dict:
