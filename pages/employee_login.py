@@ -36,9 +36,28 @@ employee_id = employee_names[selected_employee]
 
 st.success(f"Logged in as: {selected_employee} (ID: {employee_id})")
 
+def get_assigned_project(employee_id):
+    conn = get_db()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT project_name
+        FROM projects
+        JOIN project_assignments ON projects.project_id = project_assignments.project_id
+        WHERE project_assignments.employee_id = ?
+        LIMIT 1
+    """, (employee_id,))
+
+    row = cur.fetchone()
+    return row[0] if row else None
+
+assigned_project = get_assigned_project(employee_id)
+
 # Continue button
 if st.button("Continue"):
     st.session_state["employee_id"] = employee_id
     st.session_state["employee_name"] = selected_employee
+    st.session_state["assigned_project"] = assigned_project
+
     st.switch_page("pages/timesheet_input.py")
 

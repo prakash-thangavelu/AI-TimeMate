@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS timesheets (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     employee_id INTEGER,
     employee_name TEXT,
+    project_name TEXT,
     json_data TEXT,
     status TEXT
 )
@@ -87,9 +88,9 @@ pending_json = json.dumps({
 })
 
 cursor.execute("""
-INSERT INTO timesheets (employee_id, employee_name, json_data, status)
-VALUES (?, ?, ?, ?)
-""", (1, "Prakash", pending_json, "Pending Approval"))
+INSERT INTO timesheets (employee_id, employee_name, project_name, json_data, status)
+VALUES (?, ?, ?, ?, ?)
+""", (1, "Prakash", "Phoenix Migration", pending_json, "Pending Approval"))
 
 # 2️⃣ Approved Timesheet
 approved_json = json.dumps({
@@ -106,9 +107,9 @@ approved_json = json.dumps({
 })
 
 cursor.execute("""
-INSERT INTO timesheets (employee_id, employee_name, json_data, status)
-VALUES (?, ?, ?, ?)
-""", (1, "Prakash", approved_json, "Approved"))
+INSERT INTO timesheets (employee_id, employee_name, project_name, json_data, status)
+VALUES (?, ?, ?, ?, ?)
+""", (1, "Prakash", "Phoenix Migration", approved_json, "Approved"))
 
 # 3️⃣ Rejected Timesheet
 rejected_json = json.dumps({
@@ -125,9 +126,42 @@ rejected_json = json.dumps({
 })
 
 cursor.execute("""
-INSERT INTO timesheets (employee_id, employee_name, json_data, status)
-VALUES (?, ?, ?, ?)
-""", (1, "Prakash", rejected_json, "Rejected"))
+INSERT INTO timesheets (employee_id, employee_name, project_name, json_data, status)
+VALUES (?, ?, ?, ?, ?)
+""", (1, "Prakash", "Phoenix Migration", rejected_json, "Rejected"))
+
+
+
+# Projects table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS projects (
+    project_id INTEGER PRIMARY KEY,
+    project_name TEXT NOT NULL
+)
+""")
+
+# Project assignments table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS project_assignments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    employee_id INTEGER NOT NULL,
+    project_id INTEGER NOT NULL,
+    FOREIGN KEY(employee_id) REFERENCES employees(employee_id),
+    FOREIGN KEY(project_id) REFERENCES projects(project_id)
+)
+""")
+
+# Sample projects
+cursor.execute("INSERT OR IGNORE INTO projects VALUES (201, 'Phoenix Migration')")
+cursor.execute("INSERT OR IGNORE INTO projects VALUES (202, 'AI-TimeMate')")
+cursor.execute("INSERT OR IGNORE INTO projects VALUES (203, 'Retail Analytics Dashboard')")
+
+# Sample project assignments
+cursor.execute("INSERT OR IGNORE INTO project_assignments (employee_id, project_id) VALUES (1, 201)")
+cursor.execute("INSERT OR IGNORE INTO project_assignments (employee_id, project_id) VALUES (2, 202)")
+cursor.execute("INSERT OR IGNORE INTO project_assignments (employee_id, project_id) VALUES (3, 203)")
+
+
 
 conn.commit()
 conn.close()

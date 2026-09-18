@@ -27,7 +27,7 @@ conn = get_db()
 cursor = conn.cursor()
 
 cursor.execute("""
-    SELECT id, employee_id, employee_name, json_data, status
+    SELECT id, employee_id, employee_name, project_name, json_data, status
     FROM timesheets
     WHERE status = 'Pending Approval'
 """)
@@ -40,13 +40,14 @@ if not rows:
 
 # 🔥 NEW: Show each timesheet in an expandable card
 for row in rows:
-    ts_id, emp_id, emp_name, json_data, status = row
+    ts_id, emp_id, emp_name, project_name, json_data, status = row
     data = json.loads(json_data)
 
     timesheet_card(
         ts_id=ts_id,
         emp_id=emp_id,
         emp_name=emp_name,
+        proj_name=project_name,
         status=status,
         json_data=json_data,
         manager_comment=data.get("manager_comment")

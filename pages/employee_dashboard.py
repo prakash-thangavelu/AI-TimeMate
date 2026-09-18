@@ -37,7 +37,7 @@ cursor = conn.cursor()
 
 # 🔥 Fetch employee's timesheets
 cursor.execute("""
-    SELECT id, json_data, status
+    SELECT id, project_name, json_data, status
     FROM timesheets
     WHERE employee_id = ?
     ORDER BY id DESC
@@ -51,7 +51,7 @@ if not rows:
 
 # 🔥 Show each timesheet
 for row in rows:
-    ts_id, json_data, status = row
+    ts_id, project_name, json_data, status = row
     data = json.loads(json_data)
 
     manager_comment = data.get("manager_comment")
@@ -60,6 +60,7 @@ for row in rows:
         ts_id=ts_id,
         emp_id=employee_id,
         emp_name=employee_name,
+        proj_name=project_name,
         status=status,
         json_data=json_data,
         manager_comment=manager_comment
